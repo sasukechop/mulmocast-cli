@@ -3,7 +3,7 @@ import { MulmoData, ContentData, ContentNode } from "../src/typeV2";
 import test from "node:test";
 import assert from "node:assert";
 
-const sampleDoc: MulmoData = {
+export const sampleDoc: MulmoData = {
   type: "mulmo",
   children: [
     {
