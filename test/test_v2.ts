@@ -51,25 +51,49 @@ const sampleDoc: MulmoData = {
   ],
 };
 
-export function traverseContentData(node: MulmoData, onData: (data: ContentData, path: string[]) => void) {
-  const walk = (node: ContentNode, path: string[]) => {
-    if (node.type === "group") {
-      node.children.forEach((child, index) => {
-        walk(child, [...path, node.title ?? `group_${index}`]);
-      });
-    } else {
-      onData(node, path);
-    }
+export async function mapContentDataAsyncChain(node: MulmoData, handlers: ((data: ContentData, path: string[]) => Promise<ContentData>)[]): Promise<MulmoData> {
+  const applyHandlers = (data: ContentData, path: string[]): Promise<ContentData> => {
+    return handlers.reduce((prevPromise, handler) => prevPromise.then((result) => handler(result, path)), Promise.resolve(data));
   };
 
-  node.children.forEach((child, index) => {
-    walk(child, [`root_${index}`]);
-  });
+  const mapNode = async (node: ContentNode, path: string[]): Promise<ContentNode> => {
+    if (node.type === "group") {
+      const children = await Promise.all(
+        node.children.map((child, index) => {
+          return mapNode(child, [...path, node.title ?? `group_${index}`]);
+        }),
+      );
+      return {
+        ...node,
+        children,
+      };
+    }
+    return applyHandlers(node, path);
+  };
+
+  const children = await Promise.all(
+    node.children.map((child, index) => {
+      return mapNode(child, [`root_${index}`]);
+    }),
+  );
+  return {
+    type: "mulmo",
+    children,
+  };
 }
 
 test("test splitIntoSentences", async () => {
-  traverseContentData(sampleDoc, (data: ContentData, path: string[]) => {
-    console.log("見つかったデータ:", data);
-    console.log("位置:", path.join(" > "));
-  });
+  const handlers = [
+    async (data: ContentData, _path: string[]) => {
+      if (data.type === "text" || data.type === "chat") {
+        return { ...data, text: data.text.map((t) => t.split("").reverse().join("")) };
+      }
+      return data;
+    },
+    async (data: ContentData, path: string[]) => (data.type === "text" ? { ...data, text: data.text.map((t) => `[${path.join(" > ")}] ${t}`) } : data),
+  ];
+
+  const result = await mapContentDataAsyncChain(sampleDoc, handlers);
+
+  console.log(JSON.stringify(result, null, 2));
 });
