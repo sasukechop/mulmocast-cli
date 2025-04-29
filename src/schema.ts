@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const langSchema = z.string()
-const URLStringSchema = z.string().url()
+export const langSchema = z.string();
+const URLStringSchema = z.string().url();
 
 export const localizedTextSchema = z.object({
   text: z.string(),
@@ -15,7 +15,7 @@ export const localizedTextSchema = z.object({
 
 export const multiLingualTextsSchema = z.record(langSchema, localizedTextSchema);
 
-const speakerIdSchema = z.string()
+const speakerIdSchema = z.string();
 
 const speakerDataSchema = z.object({
   displayName: z.record(langSchema, z.string()),
@@ -33,32 +33,32 @@ const mediaSourceSchema = z.discriminatedUnion("kind", [
 const MulmoMarkdownMediaSchema = z.object({
   type: z.literal("markdown"),
   markdown: z.string(),
-})
+});
 
 const MulmoWebMediaSchema = z.object({
   type: z.literal("web"),
   url: URLStringSchema,
-})
+});
 
 const MulmoPdfMediaSchema = z.object({
   type: z.literal("pdf"),
   source: mediaSourceSchema,
-})
+});
 
 const MulmoImageMediaSchema = z.object({
   type: z.literal("image"),
   source: mediaSourceSchema,
-})
+});
 
 const MulmoSvgMediaSchema = z.object({
   type: z.literal("svg"),
   source: mediaSourceSchema,
-})
+});
 
 const MulmoMovieMediaSchema = z.object({
   type: z.literal("movie"),
   source: mediaSourceSchema,
-})
+});
 
 export const mulmoMediaSchema = z.union([
   MulmoMarkdownMediaSchema,
@@ -109,15 +109,19 @@ export const mulmoScriptSchema = z.object({
   beats: z.array(mulmoBeatSchema),
 
   // for text2speech
-  speechParams: text2speechParamsSchema.extend({
-    provider: z.string().optional(),
-    speakers: speakerDictionarySchema,
-  }).optional(),
+  speechParams: text2speechParamsSchema
+    .extend({
+      provider: z.string().optional(),
+      speakers: speakerDictionarySchema,
+    })
+    .optional(),
 
   // for text2image
-  imageParams: text2imageParamsSchema.extend({
-    provider: z.string().optional(),
-  }).optional(),
+  imageParams: text2imageParamsSchema
+    .extend({
+      provider: z.string().optional(),
+    })
+    .optional(),
 
   // images: ImageInfo[] // generated
   imagePath: z.string().optional(), // for keynote images movie ??

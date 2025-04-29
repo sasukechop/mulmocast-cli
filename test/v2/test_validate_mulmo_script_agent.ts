@@ -1,4 +1,4 @@
-import { validateScriptAgent } from "../../src/agents/validate_script_agent";
+import { validateMulmoScriptAgent } from "../../src/agents/validate_mulmo_script_agent";
 import test from "node:test";
 import assert from "node:assert";
 import type { GraphAI } from "graphai";
@@ -29,28 +29,28 @@ const validMulmoScriptJson = JSON.stringify({
           ttsTexts: ["Hello, this is a test"],
           duration: 1800,
           filename: "test_en_001.mp3",
-        }
+        },
       },
       media: {
         type: "image",
         source: {
           kind: "url",
-          url: "https://example.com/test-image.jpg"
-        }
+          url: "https://example.com/test-image.jpg",
+        },
       },
       imageParams: {
         model: "dall-e-3",
         size: "1024x1024",
-        aspectRatio: "1:1"
+        aspectRatio: "1:1",
       },
       speechParams: {
         speed: 1.0,
-        instruction: "Speak clearly"
+        instruction: "Speak clearly",
       },
       imagePrompt: "A test image showing something interesting",
       image: "test_image_001.jpg",
       filename: "test_001.mp3",
-      duration: 2000
+      duration: 2000,
     },
   ],
   speechParams: {
@@ -64,19 +64,19 @@ const validMulmoScriptJson = JSON.stringify({
           en: "Speaker 1",
         },
         voiceId: "voice-123",
-      }
-    }
+      },
+    },
   },
   imageParams: {
     model: "dall-e-3",
     provider: "openai",
     size: "1792x1024",
     aspectRatio: "16:9",
-    style: "natural"
+    style: "natural",
   },
   imagePath: "images/",
   omitCaptions: false,
-  padding: 500
+  padding: 500,
 });
 
 const invalidMulmoScriptJson = JSON.stringify({
@@ -98,20 +98,20 @@ const baseParams = {
   filterParams: {},
 };
 
-test("validateScriptAgent with valid MulmoScript", async () => {
-  const result = await validateScriptAgent({
+test("validateMulmoScriptAgent with valid MulmoScript", async () => {
+  const result = await validateMulmoScriptAgent({
     ...baseParams,
-    namedInputs: { jsonString: validMulmoScriptJson },
+    namedInputs: { text: validMulmoScriptJson },
   });
   assert(result);
   assert(result.isValid === true);
   assert(result.data !== null);
 });
 
-test("validateScriptAgent with invalid MulmoScript", async () => {
-  const result = await validateScriptAgent({
+test("validateMulmoScriptAgent with invalid MulmoScript", async () => {
+  const result = await validateMulmoScriptAgent({
     ...baseParams,
-    namedInputs: { jsonString: invalidMulmoScriptJson },
+    namedInputs: { text: invalidMulmoScriptJson },
   });
 
   assert(result);

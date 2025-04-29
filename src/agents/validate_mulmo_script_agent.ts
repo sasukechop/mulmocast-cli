@@ -2,11 +2,11 @@ import type { AgentFunction, AgentFunctionInfo, DefaultConfigData } from "grapha
 import { mulmoScriptSchema } from "../schema";
 import { MulmoScript } from "../type";
 
-interface ValidateScriptInputs {
-  jsonString: string;
+interface ValidateMulmoScriptInputs {
+  text: string;
 }
 
-interface ValidateScriptResponse {
+interface ValidateMulmoScriptResponse {
   isValid: boolean;
   data?: MulmoScript;
   error?: string;
@@ -16,10 +16,12 @@ interface ValidateScriptResponse {
  * MulmoScript JSON validation agent
  * Validates if a JSON string conforms to the MulmoScript schema
  */
-export const validateScriptAgent: AgentFunction<object, ValidateScriptResponse, ValidateScriptInputs, DefaultConfigData> = async ({ namedInputs }) => {
-  const { jsonString } = namedInputs;
+export const validateMulmoScriptAgent: AgentFunction<object, ValidateMulmoScriptResponse, ValidateMulmoScriptInputs, DefaultConfigData> = async ({
+  namedInputs,
+}) => {
+  const { text } = namedInputs;
   try {
-    const jsonData = JSON.parse(jsonString);
+    const jsonData = JSON.parse(text);
     const parsed = mulmoScriptSchema.parse(jsonData);
     return {
       isValid: true,
@@ -33,10 +35,10 @@ export const validateScriptAgent: AgentFunction<object, ValidateScriptResponse, 
   }
 };
 
-const validateScriptAgentInfo: AgentFunctionInfo = {
-  name: "validateScriptAgent",
-  agent: validateScriptAgent,
-  mock: validateScriptAgent,
+const validateMulmoScriptAgentInfo: AgentFunctionInfo = {
+  name: "validateMulmoScriptAgent",
+  agent: validateMulmoScriptAgent,
+  mock: validateMulmoScriptAgent,
   samples: [],
   description: "Validates if a JSON string conforms to the MulmoScript schema",
   category: ["validation"],
@@ -45,4 +47,4 @@ const validateScriptAgentInfo: AgentFunctionInfo = {
   license: "MIT",
 };
 
-export default validateScriptAgentInfo;
+export default validateMulmoScriptAgentInfo;
