@@ -126,3 +126,8 @@ export const mulmoScriptSchema = z.object({
   // for bgm
   padding: z.number().optional(),
 });
+
+export const mulmoStudioSchema = z.object({
+  script: mulmoScriptSchema,
+  beats: z.array(mulmoBeatSchema),
+});
