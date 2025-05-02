@@ -158,8 +158,11 @@ export const audio = async (studio: MulmoStudio, files: FileDirs, concurrency: n
   graph.injectValue("outputAudioFilePath", outputAudioFilePath);
   graph.injectValue("outputStudioFilePath", outputStudioFilePath);
   graph.injectValue("scratchpadDirPath", scratchpadDirPath);
-  graph.injectValue("bgmFilePath", process.env.PATH_BGM ?? defaultBGMPath);
-  
+
+  // BUGBUG: Either absolute path or relative to the Mulmo script file.
+  const bgmPath = studio.script.audioParams?.bgm;
+  graph.injectValue("bgmFilePath", bgmPath ?? process.env.PATH_BGM ?? defaultBGMPath);
+
   const results = await graph.run();
 
   const result = results.combineFiles as { fileName: string };
