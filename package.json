@@ -27,6 +27,7 @@
     "ci_test": "node --test  --require ts-node/register ./test/*/test_*.ts",
     "lint": "eslint src test",
     "build": "tsc",
+    "build_test": "tsc && git checkout -- lib/*",
     "prompt": "npx ts-node ./src/tools/prompt.ts",
     "cli": "npx ts-node ./src/cli/cli.ts",
     "latest": "yarn upgrade-interactive  --latest",
