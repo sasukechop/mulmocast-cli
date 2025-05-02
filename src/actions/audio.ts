@@ -67,9 +67,10 @@ const graph_data: GraphData = {
     outputAudioFilePath: {},
     outputStudioFilePath: {},
     scratchpadDirPath: {},
+    bgmFilePath: {},
     map: {
       agent: "mapAgent",
-      inputs: { rows: ":studio.beats", script: ":studio.script", scratchpadDirPath: ":scratchpadDirPath" },
+      inputs: { rows: ":studio.beats", script: ":studio.script", scratchpadDirPath: ":scratchpadDirPath", bgmFilePath: ":bgmFilePath" },
       params: {
         rowKey: "beat",
       },
@@ -95,7 +96,8 @@ const graph_data: GraphData = {
     addBGM: {
       agent: "addBGMAgent",
       params: {
-        musicFile: process.env.PATH_BGM ?? defaultBGMPath,
+        // PATH_BGM is for debugging. No need to document it.
+        musicFile: ":bgmFilePath",
       },
       console: {
         before: true,
@@ -156,6 +158,8 @@ export const audio = async (studio: MulmoStudio, files: FileDirs, concurrency: n
   graph.injectValue("outputAudioFilePath", outputAudioFilePath);
   graph.injectValue("outputStudioFilePath", outputStudioFilePath);
   graph.injectValue("scratchpadDirPath", scratchpadDirPath);
+  graph.injectValue("bgmFilePath", process.env.PATH_BGM ?? defaultBGMPath);
+  
   const results = await graph.run();
 
   const result = results.combineFiles as { fileName: string };
