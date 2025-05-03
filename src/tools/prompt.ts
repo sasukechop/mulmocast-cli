@@ -3,15 +3,12 @@ import path from "path";
 
 const main = async () => {
   const basePath = path.resolve(__dirname + "/../../prompts/");
-  const ret: Record<string, string> = {};
-  fs.readdirSync(basePath).map((file) => {
-    const key = file.split(".")[0];
-    const content = fs.readFileSync(path.resolve(basePath) + "/" + file, "utf-8");
-    ret[key] = content;
-  });
-  
-  const objEntries = Object.entries(ret)
-    .map(([key, value]) => `  ${key}: ${JSON.stringify(value)}`)
+  const objEntries = fs.readdirSync(basePath)
+    .map((file) => {
+      const key = file.split(".")[0];
+      const content = fs.readFileSync(path.resolve(basePath, file), "utf-8");
+      return `  ${key}: ${JSON.stringify(content)}`;
+    })
     .join(',\n');
 
   const code = [
