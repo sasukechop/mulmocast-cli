@@ -33,6 +33,7 @@ jobs:
     - run: yarn run lint
     - run: yarn run build
     - run: yarn run ci_test
+    - run: yarn run cli images scripts/test/test_media.json
     - run: yarn run cli images scripts/test/test_order.json
     - run: yarn run cli pdf scripts/test/test_order.json --pdf_mode slide --pdf_size a4
     - run: yarn run cli pdf scripts/test/test_order.json --pdf_mode talk --pdf_size a4
