@@ -84,12 +84,12 @@ OPENAI_API_KEY=your_openai_api_key
 DEFAULT_OPENAI_IMAGE_MODEL=gpt-image-1 # for the advanced image generation model
 GOOGLE_PROJECT_ID=your_google_project_id # for Google's image generation model
 NIJIVOICE_API_KEY=your_nijivoice_api_key # for Nijivoice's TTS model
-BROWSERLESS_API_TOKEN=your_browserless_api_token # to access web in mulmo-tool
+BROWSERLESS_API_TOKEN=your_browserless_api_token # to access web in mulmo tool
 ```
 
 ## Workflow
 
-1. Create a MulmoScript JSON file with `mulmo-tool scripting`
+1. Create a MulmoScript JSON file with `mulmo tool scripting`
 2. Generate audio with `mulmo audio`
 3. Generate images with `mulmo images` 
 4. Create final video with `mulmo movie`
@@ -98,7 +98,7 @@ BROWSERLESS_API_TOKEN=your_browserless_api_token # to access web in mulmo-tool
 ### Step 1: Generate a MulmoScript with interactive mode
 - Step 1-1: Run the script generation command
   ```bash
-  mulmo-tool scripting -i -t children_book -o ./ -s story
+  mulmo tool scripting -i -t children_book -o ./ -s story
   ```
   This will initiate the script creation process.
   
@@ -130,7 +130,7 @@ DEFAULT_OPENAI_IMAGE_MODEL=gpt-image-1 # required for high-quality Ghibli-style 
 
 ### Step 2: Generate a Ghibli-style MulmoScript
 ```bash
-mulmo-tool scripting -i -t ghibli_strips -o ./ -s story
+mulmo tool scripting -i -t ghibli_strips -o ./ -s story
 ```
 This will initiate an interactive conversation with the AI to create your Ghibli-inspired story. Once completed, a JSON file (e.g., `story-1747834931950.json`) will be generated.
 
@@ -155,10 +155,10 @@ writing: /Users/username/path/to/output/story-1747834931950__ja.mp4
 
 ```bash
 # Generate script from web content (requires Browserless API KEY)
-mulmo-tool scripting -u https://example.com
+mulmo tool scripting -u https://example.com
 
 # Generate script with interactive mode
-mulmo-tool scripting -i
+mulmo tool scripting -i
 ```
 
 When using the `⁠sensei_and_taro` template, a Nijivoice API key is required.
