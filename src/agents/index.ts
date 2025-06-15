@@ -4,6 +4,7 @@ import imageGoogleAgent from "./image_google_agent.js";
 import imageOpenaiAgent from "./image_openai_agent.js";
 import movieGoogleAgent from "./movie_google_agent.js";
 import mediaMockAgent from "./media_mock_agent.js";
+import movieToImageAgent from "./movie_to_image_agent.js";
 import ttsElevenlabsAgent from "./tts_elevenlabs_agent.js";
 import ttsNijivoiceAgent from "./tts_nijivoice_agent.js";
 import ttsOpenaiAgent from "./tts_openai_agent.js";
@@ -26,6 +27,7 @@ export {
   imageGoogleAgent,
   imageOpenaiAgent,
   movieGoogleAgent,
+  movieToImageAgent,
   mediaMockAgent,
   ttsElevenlabsAgent,
   ttsNijivoiceAgent,

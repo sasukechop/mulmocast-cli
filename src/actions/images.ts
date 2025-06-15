@@ -9,11 +9,12 @@ import { fileWriteAgent } from "@graphai/vanilla_node_agents";
 import { MulmoStudioContext, MulmoBeat, MulmoScript, MulmoStudioBeat, MulmoImageParams, Text2ImageAgentInfo } from "../types/index.js";
 import { getOutputStudioFilePath, mkdir } from "../utils/file.js";
 import { fileCacheAgentFilter } from "../utils/filters.js";
-import { imageGoogleAgent, imageOpenaiAgent, movieGoogleAgent, mediaMockAgent } from "../agents/index.js";
+import { imageGoogleAgent, imageOpenaiAgent, movieGoogleAgent, movieToImageAgent, mediaMockAgent } from "../agents/index.js";
 import { MulmoScriptMethods, MulmoStudioContextMethods } from "../methods/index.js";
 import { imagePlugins } from "../utils/image_plugins/index.js";
 
 import { imagePrompt } from "../utils/prompt.js";
+import { extractImageFromMovie } from "../utils/movie.js";
 
 const vanillaAgents = agents.default ?? agents;
 
@@ -40,9 +41,11 @@ export const imagePreprocessAgent = async (namedInputs: {
   const { context, beat, index, suffix, imageDirPath, imageAgentInfo, imageRefs } = namedInputs;
   const imageParams = { ...imageAgentInfo.imageParams, ...beat.imageParams };
   const imagePath = `${imageDirPath}/${context.studio.filename}/${index}${suffix}.png`;
+  const needsMovieImage = !beat.image && !beat.imagePrompt && !!beat.moviePrompt;
   const returnValue = {
     imageParams,
     movieFile: beat.moviePrompt ? `${imageDirPath}/${context.studio.filename}/${index}.mov` : undefined,
+    needsMovieImage,
   };
 
   if (beat.image) {
@@ -68,7 +71,7 @@ export const imagePreprocessAgent = async (namedInputs: {
   })();
 
   if (beat.moviePrompt && !beat.imagePrompt) {
-    return { ...returnValue, images }; // no image prompt, only movie prompt
+    return { imagePath, ...returnValue, images }; // no image prompt, only movie prompt
   }
   const prompt = imagePrompt(beat, imageParams.style);
   return { imagePath, prompt, ...returnValue, images };
@@ -332,6 +335,19 @@ const prepareGenerateImages = async (context: MulmoStudioContext) => {
   return injections;
 };
 
+const ensureImagesFromMovies = async (context: MulmoStudioContext) => {
+  const { studio, fileDirs } = context;
+  await Promise.all(
+    studio.beats.map(async (beat, index) => {
+      if (beat.movieFile && (!beat.imageFile || !fs.existsSync(beat.imageFile))) {
+        const imagePath = beat.imageFile || `${fileDirs.imageDirPath}/${studio.filename}/${index}p.png`;
+        await extractImageFromMovie(beat.movieFile, imagePath);
+        beat.imageFile = imagePath;
+      }
+    }),
+  );
+};
+
 const generateImages = async (context: MulmoStudioContext, callbacks?: CallbackFunction[]) => {
   const imageAgentInfo = MulmoScriptMethods.getImageAgentInfo(context.studio.script);
   if (imageAgentInfo.provider === "openai") {
@@ -353,6 +369,7 @@ const generateImages = async (context: MulmoStudioContext, callbacks?: CallbackF
     });
   }
   const res = await graph.run<{ output: MulmoStudioBeat[] }>();
+  await ensureImagesFromMovies(context);
   return res.mergeResult;
 };
 
@@ -386,4 +403,5 @@ export const generateBeatImage = async (index: number, context: MulmoStudioConte
     });
   }
   await graph.run<{ output: MulmoStudioBeat[] }>();
+  await ensureImagesFromMovies(context);
 };
