@@ -47,17 +47,17 @@ export const imagePreprocessAgent = async (namedInputs: {
     movieFile: beat.moviePrompt ? `${imageDirPath}/${context.studio.filename}/${index}.mov` : undefined,
   };
 
+  MulmoStudioContextMethods.setBeatSessionState(context, "image", index, true);
   if (beat.image) {
     const plugin = imagePlugins.find((plugin) => plugin.imageType === beat?.image?.type);
     if (plugin) {
       try {
-        MulmoStudioContextMethods.setBeatSessionState(context, "image", index, true);
         const processorParams = { beat, context, imagePath, ...htmlStyle(context, beat) };
         const path = await plugin.process(processorParams);
         // undefined prompt indicates that image generation is not needed
         return { imagePath: path, referenceImage: path, ...returnValue };
       } finally {
-        MulmoStudioContextMethods.setBeatSessionState(context, "image", index, false);
+        // nothing
       }
     }
   }
@@ -153,11 +153,20 @@ const beat_graph_data = {
       },
       defaultValue: { generatedImage: false },
     },
+    setState: {
+      agent: async ({ context, index }: { context: MulmoStudioContext; index: number }) => {
+        MulmoStudioContextMethods.setBeatSessionState(context, "image", index, false);
+      },
+      inputs: {
+        onComplete: ":imageFromMovie", // to wait for imageFromMovie to finish
+        context: ":context",
+        index: ":__mapIndex",
+      },
+    },
     output: {
       agent: "copyAgent",
       inputs: {
-        onComplete: ":movieGenerator", // to wait for movieGenerator to finish
-        onComplete2: ":imageFromMovie", // to wait for imageFromMovie to finish
+        onComplete: ":imageFromMovie", // to wait for imageFromMovie to finish
         imageFile: ":preprocessor.imagePath",
         movieFile: ":preprocessor.movieFile",
       },
