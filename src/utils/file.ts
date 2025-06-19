@@ -84,7 +84,9 @@ export const fetchMulmoScriptFile = async (url: string): Promise<{ result: boole
   }
 };
 
-export const getOutputStudioFilePath = (outDirPath: string, fileName: string) => {
+export const getOutputStudioFilePath = (context: MulmoStudioContext) => {
+  const outDirPath = MulmoStudioContextMethods.getOutDirPath(context);
+  const fileName = MulmoStudioContextMethods.getFileName(context);
   return path.resolve(outDirPath, fileName + "_studio.json");
 };
 export const getOutputMultilingualFilePath = (outDirPath: string, fileName: string) => {

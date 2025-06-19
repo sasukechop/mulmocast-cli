@@ -328,9 +328,7 @@ export const getImageRefs = async (context: MulmoStudioContext) => {
   return imageRefs;
 };
 const prepareGenerateImages = async (context: MulmoStudioContext) => {
-  const fileName = MulmoStudioContextMethods.getFileName(context);
   const imageProjectDirPath = MulmoStudioContextMethods.getImageProjectDirPath(context);
-  const outDirPath = MulmoStudioContextMethods.getOutDirPath(context);
   mkdir(imageProjectDirPath);
 
   const imageAgentInfo = MulmoPresentationStyleMethods.getImageAgentInfo(context.presentationStyle, context.dryRun);
@@ -344,7 +342,7 @@ const prepareGenerateImages = async (context: MulmoStudioContext) => {
     movieAgentInfo: {
       agent: context.dryRun ? "mediaMockAgent" : "movieGoogleAgent",
     },
-    outputStudioFilePath: getOutputStudioFilePath(outDirPath, fileName),
+    outputStudioFilePath: getOutputStudioFilePath(context),
     imageRefs,
   };
   return injections;

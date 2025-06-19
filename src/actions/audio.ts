@@ -262,7 +262,7 @@ export const audio = async (context: MulmoStudioContext, callbacks?: CallbackFun
     const audioArtifactFilePath = audioFilePath(context);
     const audioSegmentDirPath = resolveDirPath(audioDirPath, fileName);
     const audioCombinedFilePath = getAudioFilePath(audioDirPath, fileName, fileName, context.lang);
-    const outputStudioFilePath = getOutputStudioFilePath(outDirPath, fileName);
+    const outputStudioFilePath = getOutputStudioFilePath(context);
 
     mkdir(outDirPath);
     mkdir(audioSegmentDirPath);
