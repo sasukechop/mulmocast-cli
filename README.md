@@ -159,7 +159,7 @@ Optionally, you can specify *__clipboard* as the script file name to paste the s
 
 ## Quick Start for Ghibli-Style Animation
 
-[![Watch Ghibli-Style Animation Example](https://github.com/receptron/mulmocast-cli/blob/main/docs/images/introducing-mulmocast-new-era-presentations-thumbnail2.png?raw=true)](https://www.youtube.com/shorts/YfkDITAShLU)  
+[![Watch Ghibli-Style Animation Example](https://github.com/receptron/mulmocast-cli/blob/main/docs/images/introducing-mulmocast-new-era-presentations-thumbnail.jpg?raw=true)](https://www.youtube.com/watch?v=gz_Oe5p2n3s)
 *Click the image above to watch an example of what you can create*
 
 ### Step 1: Check/Update Environment Setup
