@@ -159,7 +159,7 @@ Optionally, you can specify *__clipboard* as the script file name to paste the s
 
 ## Quick Start for Ghibli-Style Animation
 
-[![Watch Ghibli-Style Animation Example](https://github.com/receptron/mulmocast-cli/blob/main/docs/images/introducing-mulmocast-new-era-presentations-thumbnail.jpg?raw=true)](https://www.youtube.com/watch?v=gz_Oe5p2n3s)  
+[![Watch Ghibli-Style Animation Example](https://github.com/receptron/mulmocast-cli/blob/main/docs/images/introducing-mulmocast-new-era-presentations-thumbnail2.png?raw=true)](https://www.youtube.com/shorts/YfkDITAShLU)  
 *Click the image above to watch an example of what you can create*
 
 ### Step 1: Check/Update Environment Setup
@@ -173,7 +173,7 @@ DEFAULT_OPENAI_IMAGE_MODEL=gpt-image-1 # required for high-quality Ghibli-style 
 
 ### Step 2: Generate a Ghibli-style MulmoScript
 ```bash
-mulmo tool scripting -i -t ghibli_strips -o ./ -s story
+mulmo tool scripting -i -t ghibli_comic -o ./ -s story
 ```
 This will initiate an interactive conversation with the AI to create your Ghibli-inspired story. Once completed, a JSON file (e.g., `story-1747834931950.json`) will be generated.
 
