@@ -140,6 +140,12 @@ ELEVENLABS_API_KEY=your_elevenlabs_api_key
 BROWSERLESS_API_TOKEN=your_browserless_api_token # to access web in mulmo tool
 ```
 
+#### (Optional) for deep search (experimental)
+```bash
+TAVILY_API_KEY=your_tavily_api_key # for AI-powered deep search research
+# Usage: yarn run deep_research
+```
+
 ## Workflow
 
 1. Create a MulmoScript JSON file with `mulmo tool scripting`

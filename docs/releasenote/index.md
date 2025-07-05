@@ -260,6 +260,7 @@ This release focuses on giving creators more control over audio timing while sig
 
 - Deep Search (Experimental)
   - **AI-Powered Research**: Proof-of-concept feature using web search and reflection agents to enhance content research during script generation
+  - **Usage**: `yarn run deep_research` (requires `TAVILY_API_KEY`)
 
 - Others
   - **Translation Bug Fix**: Fixed critical typo that would have broken translation functionality completely
