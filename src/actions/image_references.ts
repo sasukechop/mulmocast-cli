@@ -28,15 +28,14 @@ export const generateReferenceImage = async (context: MulmoStudioContext, key: s
           mulmoContext: context, // for fileCacheAgentFilter
           index, // for fileCacheAgentFilter
           sessionType: "imageReference", // for fileCacheAgentFilter
-          params: {
-            model: imageAgentInfo.imageParams.model,
-            canvasSize: context.presentationStyle.canvasSize,
-          },
+        },
+        params: {
+          model: imageAgentInfo.imageParams.model,
+          canvasSize: context.presentationStyle.canvasSize,
         },
       },
     },
   };
-
   const options = await graphOption(context);
   const graph = new GraphAI(image_graph_data, { imageGoogleAgent, imageOpenaiAgent }, options);
   await graph.run<{ output: MulmoStudioBeat[] }>();
