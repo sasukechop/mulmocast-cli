@@ -269,7 +269,7 @@ const googleAuth = async () => {
   }
 };
 
-export const graphOption = async (context: MulmoStudioContext, settings?: Record<string, string>) => {
+export const graphOption = async (context: MulmoStudioContext, settings?: Record<string, string>, forceImage?: boolean) => {
   const options: GraphOptions = {
     agentFilters: [
       {
@@ -286,7 +286,7 @@ export const graphOption = async (context: MulmoStudioContext, settings?: Record
   const config = settings2GraphAIConfig(settings, process.env);
 
   // We need to get google's auth token only if the google is the text2image provider.
-  if (provider === "google" || context.presentationStyle.movieParams?.provider === "google") {
+  if (provider === "google" || (!forceImage && context.presentationStyle.movieParams?.provider === "google")) {
     userAssert(!!process.env.GOOGLE_PROJECT_ID, "GOOGLE_PROJECT_ID is not set");
     GraphAILogger.log("google was specified as text2image engine");
     const token = await googleAuth();
@@ -366,7 +366,7 @@ export const generateBeatImage = async (inputs: {
   forceImage?: boolean;
 }) => {
   const { index, context, settings, callbacks, forceMovie, forceImage } = inputs;
-  const options = await graphOption(context, settings);
+  const options = await graphOption(context, settings, forceImage);
   const injections = await prepareGenerateImages(context);
   const graph = new GraphAI(beat_graph_data, imageAgents, options);
   Object.keys(injections).forEach((key: string) => {
