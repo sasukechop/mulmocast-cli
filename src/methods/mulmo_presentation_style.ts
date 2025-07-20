@@ -70,7 +70,7 @@ export const MulmoPresentationStyleMethods = {
     userAssert(!!presentationStyle?.speechParams?.speakers, "presentationStyle.speechParams.speakers is not set!!");
     const speakerIds = Object.keys(presentationStyle.speechParams.speakers).sort();
     const defaultSpeakerId = speakerIds.filter((id) => presentationStyle.speechParams.speakers[id].default)[0] ?? speakerIds[0];
-    return presentationStyle.speechParams.speakers[defaultSpeakerId ?? beat?.speaker];
+    return presentationStyle.speechParams.speakers[beat?.speaker ?? defaultSpeakerId];
   },
   getTTSProvider(presentationStyle: MulmoPresentationStyle, beat: MulmoBeat): Text2SpeechProvider {
     const speaker = MulmoPresentationStyleMethods.getSpeaker(presentationStyle, beat);
