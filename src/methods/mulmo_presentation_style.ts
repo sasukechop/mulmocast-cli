@@ -63,14 +63,14 @@ export const MulmoPresentationStyleMethods = {
     return [...defaultTextSlideStyles, ...[styles], ...[extraStyles]].flat().join("\n");
   },
   getSpeechOptions(presentationStyle: MulmoPresentationStyle, beat: MulmoBeat): SpeechOptions | undefined {
-    return { ...presentationStyle.speechParams.speakers[beat.speaker].speechOptions, ...beat.speechOptions };
+    const speaker = MulmoPresentationStyleMethods.getSpeaker(presentationStyle, beat);
+    return { ...speaker.speechOptions, ...beat.speechOptions };
   },
-  getSpeaker(presentationStyle: MulmoPresentationStyle, beat: MulmoBeat): SpeakerData {
+  getSpeaker(presentationStyle: MulmoPresentationStyle, beat?: MulmoBeat): SpeakerData {
     userAssert(!!presentationStyle?.speechParams?.speakers, "presentationStyle.speechParams.speakers is not set!!");
-    userAssert(!!beat?.speaker, "beat.speaker is not set");
-    const speaker = presentationStyle.speechParams.speakers[beat.speaker];
-    userAssert(!!speaker, `speaker is not set: speaker "${beat.speaker}"`);
-    return speaker;
+    const speakerIds = Object.keys(presentationStyle.speechParams.speakers).sort();
+    const defaultSpeakerId = speakerIds.filter((id) => presentationStyle.speechParams.speakers[id].default)[0] ?? speakerIds[0];
+    return presentationStyle.speechParams.speakers[defaultSpeakerId ?? beat?.speaker];
   },
   getTTSProvider(presentationStyle: MulmoPresentationStyle, beat: MulmoBeat): Text2SpeechProvider {
     const speaker = MulmoPresentationStyleMethods.getSpeaker(presentationStyle, beat);

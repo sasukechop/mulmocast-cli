@@ -62,9 +62,8 @@ test("test createOrUpdateStudioData", async () => {
         provider: "replicate",
       },
       beats: [
-        { speaker: "Presenter", text: "hello" },
+        { text: "hello" },
         {
-          speaker: "Presenter",
           text: "",
           image: {
             type: "image",

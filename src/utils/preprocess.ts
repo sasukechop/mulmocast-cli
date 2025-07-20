@@ -19,9 +19,8 @@ const rebuildStudio = (currentStudio: MulmoStudio | undefined, mulmoScript: Mulm
   });
 };
 
-const mulmoCredit = (speaker: string) => {
+const mulmoCredit = () => {
   return {
-    speaker,
     text: "",
     image: {
       type: "image" as const,
@@ -48,7 +47,7 @@ export const createOrUpdateStudioData = (_mulmoScript: MulmoScript, currentStudi
   // TODO: Move this code out of this function later
   // Addition cloing credit
   if (mulmoScript.$mulmocast.credit === "closing") {
-    mulmoScript.beats.push(mulmoCredit(mulmoScript.beats[0].speaker)); // First speaker
+    mulmoScript.beats.push(mulmoCredit()); // Default speaker
   }
 
   studio.script = mulmoScriptSchema.parse(mulmoScript); // update the script
