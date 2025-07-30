@@ -105,6 +105,13 @@ export const getAudioFilePath = (audioDirPath: string, dirName: string, fileName
   return path.resolve(audioDirPath, dirName, fileName + ".mp3");
 };
 
+// For Electron app
+export const audioFilePath = (context: MulmoStudioContext) => {
+  const fileName = MulmoStudioContextMethods.getFileName(context);
+  const outDirPath = MulmoStudioContextMethods.getOutDirPath(context);
+  return path.resolve(outDirPath, fileName + ".mp3");
+};
+
 export const getAudioArtifactFilePath = (context: MulmoStudioContext) => {
   const suffix = context.lang ? `_${context.lang}` : "";
   const fileName = MulmoStudioContextMethods.getFileName(context);
