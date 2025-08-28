@@ -11,13 +11,14 @@ import { MulmoStudioContext, MulmoBeat, MulmoStudioBeat, MulmoStudioMultiLingual
 
 import { fileCacheAgentFilter, nijovoiceTextAgentFilter } from "../utils/filters.js";
 import { getAudioArtifactFilePath, getAudioFilePath, getOutputStudioFilePath, resolveDirPath, defaultBGMPath, mkdir, writingMessage } from "../utils/file.js";
-import { localizedText, settings2GraphAIConfig } from "../utils/utils.js";
+import { settings2GraphAIConfig } from "../utils/utils.js";
 import { text2hash } from "../utils/utils_node.js";
 import { provider2TTSAgent } from "../utils/provider2agent.js";
 
 import { MulmoPresentationStyleMethods } from "../methods/index.js";
 import { MulmoStudioContextMethods } from "../methods/mulmo_studio_context.js";
 import { MulmoMediaSourceMethods } from "../methods/mulmo_media_source.js";
+import { MulmoBeatMethods } from "../methods/index.js";
 
 const vanillaAgents = agents.default ?? agents;
 
@@ -56,7 +57,7 @@ export const listLocalizedAudioPaths = (context: MulmoStudioContext) => {
   const lang = context.lang ?? context.studio.script.lang;
   return context.studio.script.beats.map((beat, index) => {
     const multiLingual = context.multiLingual[index];
-    const text = localizedText(beat, multiLingual, lang);
+    const text = MulmoBeatMethods.localizedText(beat, multiLingual, lang);
     return getBeatAudioPath(text, context, beat, lang);
   });
 };
@@ -70,7 +71,7 @@ const preprocessorAgent = (namedInputs: {
 }) => {
   const { beat, studioBeat, multiLingual, context, lang } = namedInputs;
   // const { lang } = context;
-  const text = localizedText(beat, multiLingual, lang);
+  const text = MulmoBeatMethods.localizedText(beat, multiLingual, lang);
   const { voiceId, provider, speechOptions, model } = getAudioParam(context, beat, lang);
   const audioPath = getBeatAudioPath(text, context, beat, lang);
   studioBeat.audioFile = audioPath; // TODO: Passing by reference is difficult to maintain, so pass it using graphai inputs
