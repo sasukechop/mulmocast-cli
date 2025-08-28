@@ -6,6 +6,7 @@ import { getHTMLFile, getCaptionImagePath, getOutputStudioFilePath } from "../ut
 import { renderHTMLToImage, interpolate } from "../utils/markdown.js";
 import { MulmoStudioContextMethods, MulmoPresentationStyleMethods, MulmoBeatMethods } from "../methods/index.js";
 import { fileWriteAgent } from "@graphai/vanilla_node_agents";
+import { processLineBreaks } from "../utils/utils.js";
 
 const vanillaAgents = agents.default ?? agents;
 
@@ -39,7 +40,7 @@ const graph_data: GraphData = {
                 }
                 const text = MulmoBeatMethods.localizedText(beat, context.multiLingual?.[index], captionParams.lang, context.studio.script.lang);
                 const htmlData = interpolate(template, {
-                  caption: text,
+                  caption: processLineBreaks(text),
                   width: `${canvasSize.width}`,
                   height: `${canvasSize.height}`,
                   styles: captionParams.styles.join(";\n"),

@@ -6,7 +6,7 @@
 
 import type { ConfigDataDictionary, DefaultConfigData } from "graphai";
 
-import { MulmoBeat, MulmoStudioBeat, MulmoStudioMultiLingual, MulmoStudioMultiLingualData } from "../types/index.js";
+import { MulmoStudioBeat, MulmoStudioMultiLingual } from "../types/index.js";
 import { type LLM, provider2LLMAgent } from "./provider2agent.js";
 
 export const llmPair = (_llm?: LLM, _model?: string) => {
@@ -33,6 +33,10 @@ export function userAssert(condition: boolean, message: string): asserts conditi
   if (!condition) {
     throw new Error(message);
   }
+}
+
+export function processLineBreaks(text: string) {
+  return text.replace(/\n/g, "<br>");
 }
 
 export const settings2GraphAIConfig = (
