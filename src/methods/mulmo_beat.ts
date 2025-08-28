@@ -1,4 +1,4 @@
-import { MulmoBeat } from "../types/index.js";
+import { MulmoBeat, MulmoStudioMultiLingualData } from "../types/index.js";
 
 import { findImagePlugin } from "../utils/image_plugins/index.js";
 
@@ -20,5 +20,14 @@ export const MulmoBeatMethods = {
     const imageNames = beat.imageNames ?? Object.keys(imageRefs); // use all images if imageNames is not specified
     const sources = imageNames.map((name) => imageRefs[name]);
     return sources.filter((source) => source !== undefined);
+  },
+  localizedText(beat: MulmoBeat, multiLingualData?: MulmoStudioMultiLingualData, targetLang?: string, defaultLang?: string) {
+    if (targetLang === defaultLang) {
+      return beat.text;
+    }
+    if (targetLang && multiLingualData?.multiLingualTexts?.[targetLang]?.text) {
+      return multiLingualData.multiLingualTexts[targetLang].text;
+    }
+    return beat.text;
   },
 };

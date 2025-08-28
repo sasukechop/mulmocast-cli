@@ -4,10 +4,11 @@ import puppeteer from "puppeteer";
 import { GraphAILogger, sleep } from "graphai";
 import { MulmoStudioContext, PDFMode, PDFSize } from "../types/index.js";
 import { MulmoPresentationStyleMethods } from "../methods/index.js";
-import { localizedText, isHttp } from "../utils/utils.js";
+import { isHttp } from "../utils/utils.js";
 import { getOutputPdfFilePath, writingMessage, getHTMLFile } from "../utils/file.js";
 import { interpolate } from "../utils/markdown.js";
 import { MulmoStudioContextMethods } from "../methods/mulmo_studio_context.js";
+import { MulmoBeatMethods } from "../methods/index.js";
 
 const isCI = process.env.CI === "true";
 
@@ -134,7 +135,7 @@ const generatePDFHTML = async (context: MulmoStudioContext, pdfMode: PDFMode, pd
   const isLandscapeImage = imageWidth > imageHeight;
 
   const imagePaths = studio.beats.map((beat) => beat.imageFile!);
-  const texts = studio.script.beats.map((beat, index) => localizedText(beat, multiLingual?.[index], lang));
+  const texts = studio.script.beats.map((beat, index) => MulmoBeatMethods.localizedText(beat, multiLingual?.[index], lang));
 
   const imageDataUrls = await Promise.all(imagePaths.map(loadImage));
   const defaultPageSize = `${getPdfSize(pdfSize)} ${isLandscapeImage ? "landscape" : "portrait"}`;

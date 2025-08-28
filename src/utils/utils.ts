@@ -29,16 +29,6 @@ export const isHttp = (fileOrUrl: string) => {
   return /^https?:\/\//.test(fileOrUrl);
 };
 
-export const localizedText = (beat: MulmoBeat, multiLingualData?: MulmoStudioMultiLingualData, targetLang?: string, defaultLang?: string) => {
-  if (targetLang === defaultLang) {
-    return beat.text;
-  }
-  if (targetLang && multiLingualData?.multiLingualTexts?.[targetLang]?.text) {
-    return multiLingualData.multiLingualTexts[targetLang].text;
-  }
-  return beat.text;
-};
-
 export function userAssert(condition: boolean, message: string): asserts condition {
   if (!condition) {
     throw new Error(message);
