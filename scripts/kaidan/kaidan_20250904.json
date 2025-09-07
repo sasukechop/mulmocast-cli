@@ -1,0 +1,99 @@
+{
+  "$mulmocast": {
+    "version": "1.1"
+  },
+  "title": "古い写真",
+  "lang": "ja",
+  "canvasSize": { "width": 1536, "height": 1024 },
+  "imageParams": {
+    "images": {
+      "健太": { "type": "image", "source": { "kind": "path", "path": "../../assets/images/kenta.png" } }
+    },
+    "style": "手描きの水彩風で、和風ホラーの情緒。深い影と月光のコントラスト、群青や青緑を基調とした落ち着いたパレット。にじむ筆致と微細なテクスチャで湿った夏の空気を表現。登場人物は表情豊かだが写実的すぎず、1980〜90年代の日本アニメを思わせるノスタルジックな雰囲気。静かで不気味な余韻を大切にする。"
+  },
+  "audioParams": {
+    "audioVolume": 1,
+    "bgm": {
+      "kind": "path",
+      "path": "../../assets/audio/horror.mp3"
+    },
+    "bgmVolume": 0.2
+  },
+  "speechParams": {
+    "speakers": {
+      "Presenter": {
+        "provider": "nijivoice",
+        "voiceId": "21a98868-151c-4c99-9a2a-cd2aeab30252"
+      },
+      "Kenta": {
+        "provider": "nijivoice",
+        "voiceId": "29313305-0ef4-45ed-8784-0d7a617870ac"
+      },
+      "Woman": {
+        "provider": "nijivoice",
+        "voiceId": "5f246a2d-1032-4b48-8a89-bcfc76d3777f"
+      },
+      "Father": {
+        "provider": "nijivoice",
+        "voiceId": "2773f3eb-2d5e-452b-b626-59d0869c53ec"
+      },
+      "Mother": {
+        "provider": "nijivoice",
+        "voiceId": "7d19a2d2-84d3-495a-98fa-cdf8030c99a1"
+      }
+    }
+  },
+  "beats": [
+    {
+      "speaker": "Kenta",
+      "text": "うわ、懐かしいな、この写真。俺、こんなに小さかったんだ。あれ？この人、誰だ？",
+      "imagePrompt": "健太（20代男性、短髪）の実家、リビングで、昼下がりに古いアルバムをみている",
+      "imageNames": ["健太"]
+    },
+    {
+      "speaker": "Mother",
+      "text": "健太、何見てるの？",
+      "imagePrompt": "リビングで、アルバムを見ながら、母（50代女性、エプロン姿）と健太（20代男性、短髪）が会話している",
+      "imageNames": ["健太"]
+    },
+    {
+      "speaker": "Kenta",
+      "text": "あ、母さん。この写真なんだけどさ、この女性、誰？親戚？",
+      "imagePrompt": "リビングで、アルバムを見ながら、母（50代女性、エプロン姿）と健太（20代男性、短髪）が会話している",
+      "imageNames": ["健太"]
+    },
+    {
+      "speaker": "Mother",
+      "text": "え？この人？さあ、誰かしらね。見たことないわね。",
+      "imagePrompt": "リビングで、アルバムを見ながら、母（50代女性、エプロン姿）と健太（20代男性、短髪）が会話している",
+      "imageNames": ["健太"]
+    },
+    {
+      "speaker": "Kenta",
+      "text": "そう？でも、家族写真に混じってるんだよな。父さんは？",
+      "imagePrompt": "リビングで、アルバムを見ながら、母（50代女性、エプロン姿）と健太（20代男性、短髪）が会話している",
+      "imageNames": ["健太"]
+    },
+    {
+      "speaker": "Father",
+      "text": "何だ、騒がしいな。",
+      "imagePrompt": "母（50代女性、エプロン姿）と健太（20代男性、短髪）がアルバムをみているリビングに父（50代男性、白髪まじり）がはいってくる",
+      "imageNames": ["健太"]
+    },
+    {
+      "speaker": "Kenta",
+      "text": "父さん、この写真見てよ。この女性、知ってる？",
+      "imagePrompt": "リビングで健太（20代男性、短髪）と父（50代男性、白髪まじり）と母（50代女性、エプロン姿）の3人でアルバムを見ている",
+    },
+    {
+      "speaker": "Father",
+      "text": "いや、全く見覚えがないな。古い写真だから、昔の近所の人とかじゃないのか？",
+      "imagePrompt": "リビングで健太と父と母の3人でアルバムを見ている"
+    },
+    {
+      "speaker": "Kenta",
+      "text": "うーん、でも、こんなに堂々と写ってるのに、誰も知らないって変じゃない？なんだか、妙に気になるな…",
+      "imagePrompt": "リビングで健太と父と母の3人でアルバムを見ている"
+    }
+  ]
+}
