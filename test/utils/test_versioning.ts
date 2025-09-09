@@ -46,9 +46,6 @@ const script_11 = {
     images: {},
     provider: "openai",
   },
-  movieParams: {
-    provider: "replicate",
-  },
   audioParams: {
     audioVolume: 1,
     bgmVolume: 0.2,

@@ -1,10 +1,20 @@
 import fs from "fs";
 import { GraphAILogger } from "graphai";
 import type { AgentFunction, AgentFunctionInfo } from "graphai";
-import { getAspectRatio } from "./movie_google_agent.js";
 import { provider2ImageAgent } from "../utils/provider2agent.js";
 import type { AgentBufferResult, ImageAgentInputs, ImageAgentParams, GenAIImageAgentConfig } from "../types/agent.js";
 import { GoogleGenAI, PersonGeneration } from "@google/genai";
+import { blankImagePath, blankSquareImagePath, blankVerticalImagePath } from "../utils/file.js";
+
+const getAspectRatio = (canvasSize: { width: number; height: number }): string => {
+  if (canvasSize.width > canvasSize.height) {
+    return "16:9";
+  } else if (canvasSize.width < canvasSize.height) {
+    return "9:16";
+  } else {
+    return "1:1";
+  }
+};
 
 export const imageGenAIAgent: AgentFunction<ImageAgentParams, AgentBufferResult, ImageAgentInputs, GenAIImageAgentConfig> = async ({
   namedInputs,
@@ -23,12 +33,20 @@ export const imageGenAIAgent: AgentFunction<ImageAgentParams, AgentBufferResult,
     const ai = new GoogleGenAI({ apiKey });
     if (model === "gemini-2.5-flash-image-preview") {
       const contents: { text?: string; inlineData?: { mimeType: string; data: string } }[] = [{ text: prompt }];
-      referenceImages?.forEach((imagePath) => {
+      const images = [...(referenceImages ?? [])];
+      // NOTE: There is no way to explicitly specify the aspect ratio for Gemini. This is just a hint.
+      if (aspectRatio === "9:16") {
+        images.push(blankVerticalImagePath());
+      } else if (aspectRatio === "1:1") {
+        images.push(blankSquareImagePath());
+      } else {
+        images.push(blankImagePath());
+      }
+      images.forEach((imagePath) => {
         const imageData = fs.readFileSync(imagePath);
         const base64Image = imageData.toString("base64");
         contents.push({ inlineData: { mimeType: "image/png", data: base64Image } });
       });
-      // NOTE: There is no way to specify the aspect ratio for Gemini.
       const response = await ai.models.generateContent({ model, contents });
       if (!response.candidates?.[0]?.content?.parts) {
         throw new Error("ERROR: generateContent returned no candidates");

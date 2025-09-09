@@ -1,9 +1,8 @@
-import { MulmoStudioContext, MulmoBeat, MulmoCanvasDimension, MulmoImageParams } from "../types/index.js";
+import { MulmoStudioContext, MulmoBeat, MulmoCanvasDimension, MulmoImageParams, MulmoMovieParams } from "../types/index.js";
 import { MulmoPresentationStyleMethods, MulmoStudioContextMethods, MulmoBeatMethods, MulmoMediaSourceMethods } from "../methods/index.js";
 import { getBeatPngImagePath, getBeatMoviePaths, getAudioFilePath } from "../utils/file.js";
 import { imagePrompt, htmlImageSystemPrompt } from "../utils/prompt.js";
 import { renderHTMLToImage } from "../utils/markdown.js";
-import { GraphAILogger } from "graphai";
 import { beatId } from "../utils/utils.js";
 
 const htmlStyle = (context: MulmoStudioContext, beat: MulmoBeat) => {
@@ -42,6 +41,7 @@ export const imagePreprocessAgent = async (namedInputs: { context: MulmoStudioCo
     duration?: number;
     audioFile?: string;
     beatDuration?: number;
+    movieAgentInfo?: { agent: string; movieParams: MulmoMovieParams };
   } = {
     imageParams: imageAgentInfo.imageParams,
     movieFile: beat.moviePrompt ? moviePaths.movieFile : undefined,
@@ -79,6 +79,9 @@ export const imagePreprocessAgent = async (namedInputs: { context: MulmoStudioCo
       returnValue.audioFile = studioBeat?.audioFile;
     }
   }
+
+  returnValue.movieAgentInfo = MulmoPresentationStyleMethods.getMovieAgentInfo(context.presentationStyle, beat);
+
   if (beat.image) {
     const plugin = MulmoBeatMethods.getPlugin(beat);
     const pluginPath = plugin.path({ beat, context, imagePath, ...htmlStyle(context, beat) });
@@ -86,17 +89,15 @@ export const imagePreprocessAgent = async (namedInputs: { context: MulmoStudioCo
     return { ...returnValue, imagePath: pluginPath, referenceImageForMovie: pluginPath };
   }
 
-  const movieAgentInfo = MulmoPresentationStyleMethods.getMovieAgentInfo(context.presentationStyle, beat);
-  GraphAILogger.log(`movieParams: ${index}`, movieAgentInfo.movieParams, returnValue.soundEffectAgentInfo, "\n", beat.moviePrompt, beat.soundEffectPrompt);
   if (beat.moviePrompt && !beat.imagePrompt) {
-    return { ...returnValue, imagePath, imageFromMovie: true, movieAgentInfo }; // no image prompt, only movie prompt
+    return { ...returnValue, imagePath, imageFromMovie: true }; // no image prompt, only movie prompt
   }
 
   // referenceImages for "edit_image", openai agent.
   const referenceImages = MulmoBeatMethods.getImageReferenceForImageGenerator(beat, imageRefs);
 
   const prompt = imagePrompt(beat, imageAgentInfo.imageParams.style);
-  return { ...returnValue, imagePath, referenceImageForMovie: imagePath, imageAgentInfo, prompt, referenceImages, movieAgentInfo };
+  return { ...returnValue, imagePath, referenceImageForMovie: imagePath, imageAgentInfo, prompt, referenceImages };
 };
 
 export const imagePluginAgent = async (namedInputs: { context: MulmoStudioContext; beat: MulmoBeat; index: number }) => {

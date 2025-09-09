@@ -60,11 +60,13 @@
       "text": "Finetuning with you",
       "duration": 7.0,
       "image": {
-        "type": "textSlide",
-        "slide": {
-          "title": "Finetuning with you"
+        "type": "image",
+        "source": {
+          "kind": "url",
+          "url": "https://raw.githubusercontent.com/receptron/mulmocast-media/refs/heads/main/characters/min_anime.png"
         }
-      }
+      },
+      "moviePrompt": "The singer preparing to sing a song."
     },
     {
       "text": "Whispers hide in silver rain. Every shadow calls your name.",

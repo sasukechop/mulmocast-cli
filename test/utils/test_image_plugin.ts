@@ -11,12 +11,40 @@ test("test imagePlugin mermaid", async () => {
   assert.equal(path, "expectImagePath");
 });
 
-test("test imagePlugin image", async () => {
+test("test imagePlugin image url", async () => {
   const plugin = findImagePlugin("image");
   assert.equal(plugin.imageType, "image");
 
-  const path = plugin.path({ imagePath: "expectImagePath", beat: { image: { type: "image", source: { kind: "url", url: "https://example.com" } } } }, {});
-  assert.equal(path, "https://example.com");
+  const path = plugin.path(
+    {
+      imagePath: "expectImagePath",
+      beat: {
+        image: {
+          type: "image",
+          source: { kind: "url", url: "https://raw.githubusercontent.com/receptron/mulmocast-media/refs/heads/main/characters/min_anime.pn" },
+        },
+      },
+    },
+    {},
+  );
+  assert.equal(path, "expectImagePath");
+});
+
+test("test imagePlugin image path", async () => {
+  const plugin = findImagePlugin("image");
+  assert.equal(plugin.imageType, "image");
+
+  const path = plugin.path({
+    imagePath: "unexpectImagePath",
+    beat: {
+      image: {
+        type: "image",
+        source: { kind: "path", path: "expectImagePath" },
+      },
+    },
+    context: { fileDirs: { mulmoFileDirPath: "/bin" } },
+  });
+  assert.equal(path, "/bin/expectImagePath");
 });
 
 test("test imagePlugin beat", async () => {

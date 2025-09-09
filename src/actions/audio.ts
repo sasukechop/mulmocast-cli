@@ -162,7 +162,7 @@ const graph_tts_map: GraphData = {
     },
   },
 };
-const graph_data: GraphData = {
+export const audio_graph_data: GraphData = {
   version: 0.5,
   concurrency: 8,
   nodes: {
@@ -305,7 +305,7 @@ export const audio = async (context: MulmoStudioContext, args?: PublicAPIArgs) =
 
     const config = settings2GraphAIConfig(settings, process.env);
     const taskManager = new TaskManager(getConcurrency(context));
-    const graph = new GraphAI(graph_data, audioAgents, { agentFilters, taskManager, config });
+    const graph = new GraphAI(audio_graph_data, audioAgents, { agentFilters, taskManager, config });
     graph.injectValue("context", context);
     graph.injectValue("audioArtifactFilePath", audioArtifactFilePath);
     graph.injectValue("audioCombinedFilePath", audioCombinedFilePath);

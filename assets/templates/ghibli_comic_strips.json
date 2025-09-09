@@ -1,5 +1,5 @@
 {
-  "title": "Ghibli-style comic strips with nano banana.",
+  "title": "Ghibli-style comic strips",
   "description": "Ghibli-style comic strips with nano banana.",
   "systemPrompt": "Another AI will generate comic strips for each beat based on the text description of that beat. Mention the reference in one of beats, if it exists. Use the JSON below as a template.",
   "presentationStyle": {

@@ -22,6 +22,7 @@ export const renderHTMLToImage = async (
 
   // Adjust page settings if needed (like width, height, etc.)
   await page.setViewport({ width, height });
+  await page.addStyleTag({ content: "html,body{margin:0;padding:0;overflow:hidden}" });
 
   if (isMermaid) {
     await page.waitForFunction(
@@ -32,6 +33,20 @@ export const renderHTMLToImage = async (
       { timeout: 20000 },
     );
   }
+
+  // Measure the size of the page and scale the page to the width and height
+  await page.evaluate(
+    ({ vw, vh }) => {
+      const de = document.documentElement;
+      const sw = Math.max(de.scrollWidth, document.body.scrollWidth || 0);
+      const sh = Math.max(de.scrollHeight, document.body.scrollHeight || 0);
+      const scale = Math.min(vw / (sw || vw), vh / (sh || vh), 1); // <=1 で縮小のみ
+      de.style.overflow = "hidden";
+      (document.body as HTMLElement).style.zoom = String(scale);
+    },
+    { vw: width, vh: height },
+  );
+
   // Step 3: Capture screenshot of the page (which contains the Markdown-rendered HTML)
   await page.screenshot({ path: outputPath as `${string}.png` | `${string}.jpeg` | `${string}.webp`, omitBackground });
 

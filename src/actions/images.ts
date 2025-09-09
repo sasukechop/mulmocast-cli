@@ -60,7 +60,7 @@ const defaultAgents = {
 
 dotenv.config();
 
-const beat_graph_data = {
+export const beat_graph_data = {
   version: 0.5,
   concurrency: 4,
   nodes: {
@@ -317,7 +317,7 @@ const beat_graph_data = {
   },
 };
 
-const graph_data: GraphData = {
+export const images_graph_data: GraphData = {
   version: 0.5,
   concurrency: 4,
   nodes: {
@@ -435,7 +435,7 @@ const generateImages = async (context: MulmoStudioContext, args?: PublicAPIArgs 
     ...defaultAgents,
     ...optionImageAgents,
   };
-  const graph = new GraphAI(graph_data, graphaiAgent, await graphOption(context, settings));
+  const graph = new GraphAI(images_graph_data, graphaiAgent, await graphOption(context, settings));
   Object.keys(injections).forEach((key: string) => {
     graph.injectValue(key, injections[key]);
   });

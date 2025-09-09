@@ -149,7 +149,7 @@ const beatGraph = {
   },
 };
 
-const translateGraph: GraphData = {
+export const translate_graph_data: GraphData = {
   version: 0.5,
   nodes: {
     context: {},
@@ -310,7 +310,7 @@ export const translate = async (context: MulmoStudioContext, args?: PublicAPIArg
 
     assert(!!config?.openAIAgent?.apiKey, "The OPENAI_API_KEY environment variable is missing or empty");
 
-    const graph = new GraphAI(translateGraph, { ...vanillaAgents, fileWriteAgent, openAIAgent }, { agentFilters, config });
+    const graph = new GraphAI(translate_graph_data, { ...vanillaAgents, fileWriteAgent, openAIAgent }, { agentFilters, config });
 
     graph.injectValue("context", context);
     graph.injectValue("targetLangs", targetLangs);

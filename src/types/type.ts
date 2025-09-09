@@ -94,18 +94,8 @@ export type MulmoChartMedia = z.infer<typeof mulmoChartMediaSchema>;
 export type MulmoMermaidMedia = z.infer<typeof mulmoMermaidMediaSchema>;
 export type MulmoSessionState = z.infer<typeof mulmoSessionStateSchema>;
 
-export type FileDirs = {
-  mulmoFilePath: string;
-  mulmoFileDirPath: string;
-
-  baseDirPath: string;
-  outDirPath: string;
-  imageDirPath: string;
-  audioDirPath: string;
-};
-
 export type MulmoStudioContext = {
-  fileDirs: FileDirs;
+  fileDirs: FileObject;
   studio: MulmoStudio;
   lang: string;
   force: boolean;
@@ -168,6 +158,8 @@ export interface FileObject {
   outDirPath: string;
   imageDirPath: string;
   audioDirPath: string;
+  nodeModuleRootPath?: string;
+
   isHttpPath: boolean;
   fileOrUrl: string;
   outputStudioFilePath: string;

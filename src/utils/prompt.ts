@@ -34,9 +34,22 @@ export const interactiveClarificationPrompt = `If there are any unclear points, 
 
 export const prefixPrompt = "Here is the web content that can be used as reference material for the script:";
 
-export const translateSystemPrompt = "Please translate the given text into the language specified in language (in locale format, like en, ja, fr, ch).";
+export const translateSystemPrompt =
+  "Please translate ONLY the text content from ## Original Language to ## Target Language (in locale format, like en, ja, fr, ch). Return ONLY the translated text without any formatting markers, language labels, or additional content.";
 
-export const translatePrompts = ["## Original Language", ":lang", "", "## Language", ":targetLang", "", "## Target", ":beat.text"];
+export const translatePrompts = [
+  "## Original Language",
+  ":lang",
+  "",
+  "## Original Text",
+  ":beat.text",
+  "",
+  "## Target Language",
+  ":targetLang",
+  "",
+  "## Target Text",
+  "",
+];
 
 export const sceneToBeatsPrompt = ({
   sampleBeats,

@@ -35,12 +35,15 @@ export const movieGenAIAgent: AgentFunction<GoogleMovieAgentParams, AgentBufferR
       model,
       prompt,
       config: {
-        durationSeconds: duration,
+        durationSeconds: duration as number | undefined,
         aspectRatio,
         personGeneration: undefined as PersonGeneration | undefined,
       },
       image: undefined as { imageBytes: string; mimeType: string } | undefined,
     };
+    if (model === "veo-3.0-generate-preview") {
+      payload.config.durationSeconds = undefined;
+    }
     if (imagePath) {
       const buffer = readFileSync(imagePath);
       const imageBytes = buffer.toString("base64");

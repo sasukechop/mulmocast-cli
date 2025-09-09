@@ -10,7 +10,7 @@ import { fileWriteAgent } from "@graphai/vanilla_node_agents";
 
 const vanillaAgents = agents.default ?? agents;
 
-const graph_data: GraphData = {
+export const caption_graph_data: GraphData = {
   version: 0.5,
   nodes: {
     context: {},
@@ -78,7 +78,7 @@ export const captions = async (context: MulmoStudioContext, args?: PublicAPIArgs
   if (MulmoStudioContextMethods.getCaption(context)) {
     try {
       MulmoStudioContextMethods.setSessionState(context, "caption", true);
-      const graph = new GraphAI(graph_data, { ...vanillaAgents, fileWriteAgent });
+      const graph = new GraphAI(caption_graph_data, { ...vanillaAgents, fileWriteAgent });
       const outDirPath = MulmoStudioContextMethods.getOutDirPath(context);
       const fileName = MulmoStudioContextMethods.getFileName(context);
       const outputStudioFilePath = getOutputStudioFilePath(outDirPath, fileName);

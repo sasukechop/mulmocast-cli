@@ -1,0 +1,16 @@
+{
+  "title": "Plain Image Prompt",
+  "description": "Template for image prompt (no style, no images).",
+  "systemPrompt": "Another AI will generate images for each beat based on the image prompt of that beat. Movie prompts must be written in English. Mention the reference in one of beats, if it exists. Use the JSON below as a template.",
+  "presentationStyle": {
+    "$mulmocast": {
+      "version": "1.1",
+      "credit": "closing"
+    },
+    "canvasSize": {
+      "width": 1536,
+      "height": 1024
+    }
+  },
+  "scriptName": "image_prompts_template.json"
+}
